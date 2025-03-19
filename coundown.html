@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    /* Orbitron（数字）+ 日本語用の明朝体（Noto Serif JP） */
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron&family=Noto+Serif+JP:wght@700&display=swap');
+
+    /* ページ全体の設定 */
+    body {
+      background-color: black;
+      color: red;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    /* カウントダウンとタイトルの枠 */
+    #container {
+      width: 420px; /* 固定幅 */
+      height: 120px; /* 固定高さ */
+      border: 3px solid red;
+      padding: 20px;
+      background-color: rgba(255, 0, 0, 0.1);
+      box-shadow: 0 0 20px red;
+      text-align: left;
+      position: relative;
+    }
+
+    /* タイトルのデザイン（太字の明朝体 + サイズ調整） */
+    #title {
+      font-size: 30px;
+      margin-bottom: 5px;
+      text-shadow: 0 0 10px red;
+      font-family: 'Noto Serif JP', serif;
+      font-weight: 700;
+    }
+
+    /* カウントダウンのデザイン（Orbitron + 1.5倍サイズ） */
+    #countdown {
+      font-size: 45px; /* 30px × 1.5倍 */
+      text-shadow: 0 0 10px red;
+      font-family: 'Orbitron', sans-serif;
+      white-space: nowrap; /* 横スクロール禁止でサイズ固定 */
+    }
+  </style>
+</head>
+<body>
+
+  <!-- カウントダウンとタイトルを1つの枠で囲む -->
+  <div id="container">
+    <div id="title">修士論文提出まであと</div>
+    <div id="countdown"></div>
+  </div>
+
+  <script>
+    // 目標日時を設定（例：2026年2月20日 11:59:59）
+    const targetDate = new Date("Feb 20, 2026 11:59:59").getTime();
+
+    function updateCountdown() {
+      // 現在時刻をミリ秒単位で取得
+      const now = Date.now();
+      const distance = targetDate - now;
+
+      if (distance > 0) {
+        // 残り時間の計算（ミリ秒まで）
+        const hours = Math.floor(distance / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        const milliseconds = Math.floor(distance % 1000);
+
+        // 表示形式「〇:〇:〇.〇〇〇」
+        document.getElementById("countdown").innerHTML =
+          hours.toString().padStart(2, "0") + ":" +
+          minutes.toString().padStart(2, "0") + ":" +
+          seconds.toString().padStart(2, "0") + "." +
+          milliseconds.toString().padStart(3, "0");
+      } else {
+        document.getElementById("countdown").innerHTML = "00:00:00.000";
+      }
+    }
+
+    // 1ミリ秒ごとにカウントダウンを更新
+    setInterval(updateCountdown, 1);
+  </script>
+</body>
+</html>
